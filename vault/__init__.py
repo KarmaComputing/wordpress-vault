@@ -20,7 +20,7 @@ def create_app(test_config=None):
         
         return render_template('unlock.html')
 
-    @app.route('/lock')
+    @app.route('/lock', methods=["POST"])
     def lock():
 
         subprocess.run("./lock.sh", shell=True)
