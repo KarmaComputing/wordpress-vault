@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>repl.it</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  </head>
+  <body>
+  <div class="container">
+    <h1 class="display-4">Karma WordPress Vault</h1>
+    <p>Lock and un-lock your secured WordPress site.</p>
+
+
+    <form method="POST" action="/unlock">
+    <div class="form-group">
+      <label id="lbl_websiteURL">Website</label>
+      <input id="websiteURL" placeholder="your-website.com" class="form-control" />
+      <br />
+      <br />
+      <label id="username">Username</label>
+      <input id="username" class="form-control" /> 
+      <br />
+      <label id="password"> Password</label>
+      <input id="password" type="password" class="form-control" />
+      <br />
+      <br />
+      <button class="btn btn-danger" type="submit" id="unlock"> Unlock </button>
+      <br />
+      <br />
+      <p class="lead">To lock your site manually you will only need the name of your website and press the lock button. </p>
+      <button class="btn btn-success">Lock</button>
+    </div>
+    
+    </form>
+    
+  </div><!-- end of container -->
+  </body>
+</html>
+
