@@ -16,15 +16,15 @@
 
     <form method="POST" action="/unlock">
     <div class="form-group">
-      <label id="lbl_websiteURL">Website</label>
-      <input id="websiteURL" placeholder="your-website.com" class="form-control" />
+      <label id="websiteURL">Website</label>
+      <input name="websiteURL" id="websiteURL" placeholder="your-website.com" class="form-control" required />
       <br />
       <br />
       <label id="username">Username</label>
-      <input id="username" class="form-control" /> 
+      <input name="username" id="username" class="form-control" required /> 
       <br />
       <label id="password"> Password</label>
-      <input id="password" type="password" class="form-control" />
+      <input name="password" id="password" type="password" class="form-control"required  />
       <br />
       <br />
       <button class="btn btn-danger" type="submit" id="unlock"> Unlock </button>
