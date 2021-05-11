@@ -23,3 +23,11 @@ Yes. See [Secure Wordpress](https://secure-wordpress.karmacomputing.co.uk)
 Consumers of Wordpress, sometimes trying to save money from building a more robust solution- will instead assemble a WordPress website themselves by combining plugins. 
 
 This creates a security nightmare, but the problem is real and, it's very hard to take the candy away when the economics work in this way.
+
+### Install
+
+```
+python3 -m venv venv
+source ./venv/bin/activate
+pip install -r requirements.txt
+```
