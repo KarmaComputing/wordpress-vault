@@ -27,6 +27,11 @@ This creates a security nightmare, but the problem is real and, it's very hard t
 ### Install
 
 ```
+cp .env.example .env
+# Update your .env file
+```
+
+```
 python3 -m venv venv
 source ./venv/bin/activate
 pip install -r requirements.txt
