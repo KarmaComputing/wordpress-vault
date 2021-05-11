@@ -1,14 +1,19 @@
+import os
 import requests
 from flask import Flask, render_template, request
+import subprocess
+from urllib.parse import urlsplit
 
 
 def create_app(test_config=None):
     # create and configure the app
 
     app = Flask(__name__)
+    path = "./vault"
 
     @app.route("/")
     def index():
+
         return render_template("index.html")
 
     @app.route("/unlock", methods=["POST"])
@@ -23,7 +28,7 @@ def create_app(test_config=None):
             if "wp-login.php" in request.form["websiteURL"] and r.status_code == 200:
                 # validating Login
                 request_comparison = "login_error" in r.content.decode("utf-8")
-                if request_comparison is False:  # True if password is wrong
+                if request_comparison == False:  # True if password is wrong
                     print(validate(request.form["websiteURL"]))
                     print("Correct Password")
                     # subprocess.run(f"{path}/unlock_lock.sh", shell=True)
