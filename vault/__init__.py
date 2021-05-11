@@ -7,7 +7,7 @@ from urllib.parse import urlsplit
 def create_app(test_config=None):
     # create and configure the app
 
-    app = Flask(__name__, template_folder='/home/karma/www/vault-karmacomputing/vault/template/')
+    app = Flask(__name__)
     path = './vault' 
 
     @app.route('/')
