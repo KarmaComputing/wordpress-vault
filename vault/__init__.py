@@ -1,8 +1,6 @@
-import os
 import requests
 from flask import Flask, render_template, request
 import subprocess
-from urllib.parse import urlsplit
 
 
 def create_app(test_config=None):
@@ -22,16 +20,22 @@ def create_app(test_config=None):
         if request.method == "POST":
             r = requests.post(
                 validate(request.form["websiteURL"]),
-                data={"log": request.form["username"], "pwd": request.form["password"]},
-            )
+                data={
+                    "log": request.form["username"],
+                    "pwd": request.form["password"],
+                },  # noqa
+            )  # noqa
             # validating URL
-            if "wp-login.php" in request.form["websiteURL"] and r.status_code == 200:
+            if (
+                "wp-login.php" in request.form["websiteURL"]
+                and r.status_code == 200  # noqa
+            ):  # noqa
                 # validating Login
-                request_comparison = "login_error" in r.content.decode("utf-8")
-                if request_comparison == False:  # True if password is wrong
+                request_comparison = "login_error" in r.content.decode("utf-8")  # noqa
+                if request_comparison is False:  # True if password is wrong
                     print(validate(request.form["websiteURL"]))
                     print("Correct Password")
-                    # subprocess.run(f"{path}/unlock_lock.sh", shell=True)
+                    subprocess.run(f"{path}/unlock_lock.sh", shell=True)
                     return render_template("unlock.html")
                 return "Wrong Password or Username"
                 print("Wrong Password")
