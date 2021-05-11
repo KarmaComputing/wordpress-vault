@@ -2,8 +2,8 @@
 
 set -x 
 
-DIRECTORY=/home/r2global/www/r2-commerce.com
-UPLOADS=/home/r2global/www/r2-commerce.com/wp-content/uploads
+DIRECTORY=$1
+UPLOADS=$1/wp-content/uploads
 
 
 sudo chattr -R +i $DIRECTORY && sudo chattr -R -i $UPLOADS 
