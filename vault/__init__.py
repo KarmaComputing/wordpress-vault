@@ -3,8 +3,10 @@ from flask import Flask, render_template, request
 import subprocess
 from dotenv import load_dotenv
 import os
+from urllib.parse import urlsplit
+import urllib
 
-load_dotenv(verbose=True)  # take environment variables from .env.
+load_dotenv(verbose=True)  # get environment variables from .env
 
 
 def create_app(test_config=None):
@@ -20,28 +22,11 @@ def create_app(test_config=None):
     def unlock():
 
         if request.method == "POST":
-            r = requests.post(
-                validate(request.form["websiteURL"]),
-                data={
-                    "log": request.form["username"],
-                    "pwd": request.form["password"],
-                },
-            )
-            # validating URL
-            if (
-                "wp-login.php" in request.form["websiteURL"] and r.status_code == 200
-            ):  # noqa
-                # validating Login
-                request_comparison = "login_error" in r.content.decode("utf-8")  # noqa
-                if request_comparison is False:  # True if password is wrong
-                    print(validate(request.form["websiteURL"]))
-                    print("Correct Password")
-                    subprocess.run(app.config["PATH_TO_UNLOCK_SCRIPT"], shell=True)
-                    return render_template("unlock.html")
+            domain = validate(request.form["websiteURL"]).geturl()
+            if wordpress_login_success(domain) is False:
                 return "Wrong Password or Username"
-                print("Wrong Password")
-            print("invalid URL")
-            return "Please enter a valid wordpress URL"
+            subprocess.run(app.config["PATH_TO_UNLOCK_SCRIPT"], shell=True)
+            return render_template("unlock.html")
         return render_template("index.html")
 
     @app.route("/lock", methods=["POST"])
@@ -50,11 +35,33 @@ def create_app(test_config=None):
         subprocess.run(app.config["PATH_TO_LOCK_SCRIPT"], shell=True)
         return render_template("lock.html")
 
-    def validate(webaddress: str):
-        if "://" in webaddress:
-            return webaddress
-        else:
-            webaddress = "http://" + webaddress
-            return webaddress
-
     return app
+
+
+def wordpress_login_success(domain: str) -> bool:
+
+    login_url = f"{domain}/wp-login.php"
+    try:
+        wordpress_login = requests.post(
+            login_url,
+            data={
+                "log": request.form["username"],
+                "pwd": request.form["password"],
+            },
+        )
+        if "login_error" in wordpress_login.text:
+            return False
+        if "<h1>Dashboard</h1>" in wordpress_login.text:
+            return True
+    except requests.exceptions.ConnectionError:
+        print("requests.exceptions.ConnectionError")
+        return False
+    return False
+
+
+def validate(webaddress: str) -> urllib.parse.SplitResult:
+    """From webaddres return just the domain."""
+
+    webaddress = webaddress if "://" in webaddress else "https://" + webaddress
+    url = urlsplit(webaddress)
+    return url
