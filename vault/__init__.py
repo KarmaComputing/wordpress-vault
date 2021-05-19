@@ -1,5 +1,5 @@
 import requests
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, flash
 import subprocess
 from dotenv import load_dotenv
 import os
@@ -14,6 +14,7 @@ def create_app(test_config=None):
 
     app = Flask(__name__)
     app.config.update(os.environ)
+    app.secret_key = "wehrjsdfsdjfwerjsf"
 
     @app.route("/")
     def index():
@@ -22,16 +23,20 @@ def create_app(test_config=None):
     @app.route("/unlock", methods=["POST"])
     def unlock():
         if request.method == "POST":
-            domain = validate(request.form["websiteURL"]).geturl()
-            dictionary = json.loads(app.config["ALLOWED_SITES"])
-            wp_path = dictionary[domain]
-            if domain not in dictionary:
-                return redirect("https://subscriptionwebsitebuilder.co.uk", code=301)
-            if wordpress_login_success(domain) is False:
-                return "Wrong Password or Username"
-            print(wp_path)
+
+            URL = validate(request.form["websiteURL"]).geturl()
+            DOMAIN = validate(request.form["websiteURL"]).netloc
+            ALLOWED_SITES = json.loads(app.config["ALLOWED_SITES"])
+
+            if DOMAIN not in ALLOWED_SITES:
+                flash("Please check the URL, otherwise, start using Vault today!")
+                return render_template("index.html")
+            if wordpress_login_success(URL) is False:
+                flash("Wrong username or password")
+                return render_template("index.html")
+            WP_PATH = ALLOWED_SITES[DOMAIN]
             subprocess.run(
-                app.config["PATH_TO_UNLOCK_SCRIPT"] + " " + wp_path, shell=True
+                app.config["PATH_TO_UNLOCK_SCRIPT"] + " " + WP_PATH, shell=True
             )
             return render_template("unlock.html")
         return render_template("index.html")
@@ -39,15 +44,16 @@ def create_app(test_config=None):
     @app.route("/lock", methods=["POST"])
     def lock():
         if request.method == "POST":
-            domain = validate(request.form["websiteURL"]).geturl()
-            dictionary = json.loads(app.config["ALLOWED_SITES"])
-            wp_path = dictionary[domain]
-            if domain not in dictionary:
-                return redirect("https://subscriptionwebsitebuilder.co.uk", code=301)
-            print(wp_path)
-            print(app.config["PATH_TO_LOCK_SCRIPT"] + wp_path)
+
+            DOMAIN = validate(request.form["websiteURL"]).netloc
+            ALLOWED_SITES = json.loads(app.config["ALLOWED_SITES"])
+
+            if DOMAIN not in ALLOWED_SITES:
+                flash("Please check the URL, otherwise, start using Vault today!")
+                return render_template("index.html")
+            WP_PATH = ALLOWED_SITES[DOMAIN]
             subprocess.run(
-                app.config["PATH_TO_LOCK_SCRIPT"] + " " + wp_path, shell=True
+                app.config["PATH_TO_LOCK_SCRIPT"] + " " + WP_PATH, shell=True
             )
             return render_template("lock.html")
         return render_template("index.html")
