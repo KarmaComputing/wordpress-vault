@@ -15,7 +15,6 @@ def create_app(test_config=None):
     app = Flask(__name__)
     app.config.update(os.environ)
     app.secret_key = app.config["SECRET_KEY"]
-    breakpoint()
 
     @app.route("/")
     def index():
