@@ -29,11 +29,13 @@ def create_app(test_config=None):
             ALLOWED_SITES = json.loads(app.config["ALLOWED_SITES"])
 
             if DOMAIN not in ALLOWED_SITES:
+                sign_up_url = app.config["SIGN_UP_URL"]
                 flash("Please check the URL, otherwise, start using Vault today!")
-                return render_template("index.html")
+                return render_template("index.html", sign_up_url=sign_up_url)
             if wordpress_login_success(URL) is False:
+                sign_up_url = app.config["SIGN_UP_URL"]
                 flash("Wrong username or password")
-                return render_template("index.html")
+                return render_template("index.html", sign_up_url=sign_up_url)
             WP_PATH = ALLOWED_SITES[DOMAIN]
             subprocess.run(
                 app.config["PATH_TO_UNLOCK_SCRIPT"] + " " + WP_PATH, shell=True
@@ -49,8 +51,9 @@ def create_app(test_config=None):
             ALLOWED_SITES = json.loads(app.config["ALLOWED_SITES"])
 
             if DOMAIN not in ALLOWED_SITES:
+                sign_up_url = app.config["SIGN_UP_URL"]
                 flash("Please check the URL, otherwise, start using Vault today!")
-                return render_template("index.html")
+                return render_template("index.html", sign_up_url=sign_up_url)
             WP_PATH = ALLOWED_SITES[DOMAIN]
             subprocess.run(
                 app.config["PATH_TO_LOCK_SCRIPT"] + " " + WP_PATH, shell=True
