@@ -12,8 +12,9 @@
   {% with messages = get_flashed_messages() %}  
          {% if messages %}  
                {% for message in messages %}  
-                    <p class="alert alert-danger" role="alert">
-                    <a href="{{ sign_up_url }}"> {{ message }}</a></P>
+                    <p class="alert alert-info" role="alert">
+                    {{ message }}
+                    </p>
                {% endfor %}  
          {% endif %}  
   {% endwith %}  
