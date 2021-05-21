@@ -1,0 +1,17 @@
+<VirtualHost *:80>
+    ServerName vault.example.com
+
+    <Directory "/var/www/vault.example.com/">
+      Require all granted
+    </Directory>
+
+
+    WSGIScriptAlias / /var/www/wordpress-vault/vault.wsgi
+    LogLevel Debug
+    ErrorLog ${APACHE_LOG_DIR}/vault-error.log
+    CustomLog ${APACHE_LOG_DIR}/vault-access.log combined
+
+    WSGIDaemonProcess wordpressvault user=karma group=karma processes=1 threads=4 home=/var/www/wordpress-vault python-home=/var/www/wordpress-vault/venv display-name=wordpressvault
+    WSGIProcessGroup wordpressvault
+
+</VirtualHost>
