@@ -18,41 +18,51 @@
                {% endfor %}  
          {% endif %}  
   {% endwith %}  
-  <div class="container mb-4">
-    <h1 class="display-4 mt-4">Karma WordPress Vault</h1>
-    <p class="lead">Lock and un-lock your secured WordPress site.</p>
+  <div class="container mb-4 px-4">
+    <div class="row">
+      <div class="col">
+        <h1 class="display-4 mt-4">Karma WordPress Vault</h1>
+        <p class="lead">Lock and un-lock your secured WordPress site.</p>
 
 
-    <form method="POST" action="/unlock">
-    <div class="form-group">
-      <label for="unlock-websiteURL">Website</label>
-      <input name="websiteURL" id="unlock-websiteURL" placeholder="your-website.com" class="form-control" required />
-      <br />
-      <br />
-      <label for="username">Username</label>
-      <input name="username" id="username" class="form-control" required /> 
-      <br />
-      <label for="password"> Password</label>
-      <input name="password" id="password" type="password" class="form-control"required  />
-      <br />
-      <br />
-      <button class="btn btn-danger" type="submit" id="unlock"> Unlock </button>
+        <form method="POST" action="/unlock">
+        <div class="form-group">
+          <label for="unlock-websiteURL">Website</label>
+          <input name="websiteURL" id="unlock-websiteURL" placeholder="your-website.com" class="form-control" required />
+          <br />
+          <br />
+          <label for="username">Username</label>
+          <input name="username" id="username" class="form-control" required />
+          <br />
+          <label for="password"> Password</label>
+          <input name="password" id="password" type="password" class="form-control"required  />
+          <br />
+          <br />
+          <button class="btn btn-danger" type="submit" id="unlock"> Unlock </button>
+        </div>
+        </form>
+
+        <form method="POST" action="/lock">
+        <div class="form-group">
+          <br />
+          <br />
+          <p class="lead">To lock your site manually you will only need the name of your website and press the lock button. </p>
+          <label for="lock-websiteURL">Website</label>
+          <input name="websiteURL" id="lock-websiteURL" placeholder="your-website.com" class="form-control" required />
+          <br />
+          <br />
+          <button class="btn btn-success">Lock</button>
+        </div>
+        </form>
+      </div><!-- end col -->
+    </div><!-- end row -->
+
+    <div class="row my-4">
+      <div class="col">
+        <h2>Don't have an account?</h2>
+        <a href="{{ info_url }}" class="btn btn-success my-3">Secure my WordPress site</a>
+      </div><!-- end col -->
     </div>
-    </form>
-
-    <form method="POST" action="/lock">
-    <div class="form-group">
-      <br />
-      <br />
-      <p class="lead">To lock your site manually you will only need the name of your website and press the lock button. </p>
-      <label for="lock-websiteURL">Website</label>
-      <input name="websiteURL" id="lock-websiteURL" placeholder="your-website.com" class="form-control" required />
-      <br />
-      <br />
-      <button class="btn btn-success">Lock</button>
-    </div>
-    
-    </form>
     
   </div><!-- end of container -->
   </body>

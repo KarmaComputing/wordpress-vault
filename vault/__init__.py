@@ -21,7 +21,7 @@ def create_app(test_config=None):
 
     @app.route("/")
     def index():
-        return render_template("index.html")
+        return render_template("index.html", info_url=app.config["INFO_URL"])
 
     @app.route("/unlock", methods=["POST"])
     def unlock():
