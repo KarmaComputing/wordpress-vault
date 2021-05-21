@@ -43,7 +43,7 @@ def create_app(test_config=None):
             subprocess.run(
                 app.config["PATH_TO_UNLOCK_SCRIPT"] + " " + WP_PATH, shell=True
             )
-            return render_template("unlock.html")
+            flash("Site has been unlocked")
         return render_template("index.html")
 
     @app.route("/lock", methods=["POST"])
@@ -61,7 +61,7 @@ def create_app(test_config=None):
             subprocess.run(
                 app.config["PATH_TO_LOCK_SCRIPT"] + " " + WP_PATH, shell=True
             )
-            return render_template("lock.html")
+            flash("Site has been locked")
         return render_template("index.html")
 
     return app
@@ -89,7 +89,7 @@ def wordpress_login_success(domain: str) -> bool:
 
 
 def validate(webaddress: str) -> urllib.parse.SplitResult:
-    """From webaddres return just the domain."""
+    """Parse webaddress, return url object."""
 
     webaddress = webaddress if "://" in webaddress else "https://" + webaddress
     url = urlsplit(webaddress)
