@@ -10,6 +10,9 @@ import json
 load_dotenv(verbose=True)  # get environment variables from .env
 
 
+site_not_found_msg = "Web address not found, would you like to secure your site? Start using Vault today!"  # noqa
+
+
 def create_app(test_config=None):
 
     app = Flask(__name__)
@@ -30,7 +33,7 @@ def create_app(test_config=None):
 
             if DOMAIN not in ALLOWED_SITES:
                 sign_up_url = app.config["SIGN_UP_URL"]
-                flash("Please check the URL, otherwise, start using Vault today!")
+                flash(site_not_found_msg)
                 return render_template("index.html", sign_up_url=sign_up_url)
             if wordpress_login_success(URL) is False:
                 sign_up_url = app.config["SIGN_UP_URL"]
@@ -52,7 +55,7 @@ def create_app(test_config=None):
 
             if DOMAIN not in ALLOWED_SITES:
                 sign_up_url = app.config["SIGN_UP_URL"]
-                flash("Please check the URL, otherwise, start using Vault today!")
+                flash(site_not_found_msg)
                 return render_template("index.html", sign_up_url=sign_up_url)
             WP_PATH = ALLOWED_SITES[DOMAIN]
             subprocess.run(
