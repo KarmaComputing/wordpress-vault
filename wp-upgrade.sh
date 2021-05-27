@@ -9,11 +9,14 @@ UPLOADS=$1/wp-content/uploads
 # To unlock the files recursively
 sudo chattr -R -i $DIRECTORY
 
-#BACKUP THE FOLDER
-cp -r $DIRECTORY $DIRECTORY".bk-$(date +"%d-%m-%Y")"
-
 #GO TO THE WORDPRESS DIRECTORY
 cd $DIRECTORY
+
+# backup DB
+./wp-cli.phar db export --allow-root
+
+#BACKUP THE FOLDER
+cp -r $DIRECTORY $DIRECTORY".bk-$(date +"%d-%m-%Y")"
 
 # update wordpress
 ./wp-cli.phar core update --allow-root
