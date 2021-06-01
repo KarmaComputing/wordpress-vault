@@ -3,9 +3,5 @@
 set -x
 set -e
 
-. venv/bin/activate
-
-python3 directory.py
-
-deactivate
+. venv/bin/activate && python3 append-to-bash.py && deactivate
 
