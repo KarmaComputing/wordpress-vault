@@ -39,7 +39,7 @@ def create_app(test_config=None):
                 sign_up_url = app.config["SIGN_UP_URL"]
                 flash("Wrong username or password")
                 return render_template("index.html", sign_up_url=sign_up_url)
-            WP_PATH = ALLOWED_SITES[DOMAIN]
+            WP_PATH = ALLOWED_SITES[DOMAIN]["path"]
             subprocess.run(
                 app.config["PATH_TO_UNLOCK_SCRIPT"] + " " + WP_PATH, shell=True
             )
@@ -57,7 +57,7 @@ def create_app(test_config=None):
                 sign_up_url = app.config["SIGN_UP_URL"]
                 flash(site_not_found_msg)
                 return render_template("index.html", sign_up_url=sign_up_url)
-            WP_PATH = ALLOWED_SITES[DOMAIN]
+            WP_PATH = ALLOWED_SITES[DOMAIN]["path"]
             subprocess.run(
                 app.config["PATH_TO_LOCK_SCRIPT"] + " " + WP_PATH, shell=True
             )
