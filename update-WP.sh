@@ -32,9 +32,5 @@ sudo -u $USER -- wp plugin update --all
 #update themes
 sudo -u $USER -- wp theme update --all
 
-#CHOWN to the main user
-sudo -u $USER chown -R $USER:$USER $DIRECTORY
-sudo -u $USER chown -R $USER:$USER $BK_DIRECTORY
-
 #Lock Script
 sudo chattr -R +i $DIRECTORY && sudo chattr -R -i $UPLOADS && echo "Updates are now finished, all files are locked"
