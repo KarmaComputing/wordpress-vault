@@ -7,9 +7,7 @@ DIRECTORY=$1
 UPLOADS=$1/wp-content/uploads
 BK_DIRECTORY=$DIRECTORY".bk"
 USER=$2
-
-# login as the user 
-#sudo su $USER 
+SQL=$BK_DIRECTORY/$USER-$(date +"%d-%m-%Y")
 
 # To unlock the files recursively
 sudo chattr -R -i $DIRECTORY
@@ -17,15 +15,11 @@ sudo chattr -R -i $DIRECTORY
 #GO TO THE WORDPRESS DIRECTORY
 cd $DIRECTORY
 
-# backup DB
-sudo -u $USER -- wp --path=$DIRECTORY db export
-
 #BACKUP THE FOLDER
 sudo -u $USER cp -r $DIRECTORY $BK_DIRECTORY
 
-# Delete database bk from production
-sudo -u $USER rm -r $USER* 
-
+# backup DB
+sudo -u $USER -- wp --path=$DIRECTORY db export $SQL
 
 # update wordpress
 sudo -u $USER -- wp core update 
