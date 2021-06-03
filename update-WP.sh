@@ -5,7 +5,7 @@ set -e
 
 DIRECTORY=$1
 UPLOADS=$1/wp-content/uploads
-BK_DIRECTORY=$DIRECTORY".bk-$(date +"%d-%m-%Y")"
+BK_DIRECTORY=$DIRECTORY".bk"
 USER=$2
 
 # login as the user 
@@ -22,6 +22,9 @@ sudo -u $USER -- wp --path=$DIRECTORY db export
 
 #BACKUP THE FOLDER
 sudo -u $USER cp -r $DIRECTORY $BK_DIRECTORY
+
+# Delete database bk from production
+sudo -u $USER rm -r $USER-* 
 
 # update wordpress
 sudo -u $USER -- wp core update 
