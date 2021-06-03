@@ -26,6 +26,7 @@ sudo -u $USER cp -r $DIRECTORY $BK_DIRECTORY
 # Delete database bk from production
 sudo -u $USER rm -r $USER* 
 
+
 # update wordpress
 sudo -u $USER -- wp core update 
 
